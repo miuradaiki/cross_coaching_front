@@ -11,5 +11,7 @@ describe("About", () => {
     render(<About />);
     // screen.getByTextで文字列を検索し、toBeInTheDocument()で存在確認
     expect(screen.getByText("Hello World!")).toBeInTheDocument();
+    // circleciの検証用に追加
+    expect(screen.getByText("add CircleCI!")).toBeInTheDocument();
   });
 });
