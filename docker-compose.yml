@@ -1,0 +1,12 @@
+version: "3"
+services:
+  front:
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+    tty: true
+    volumes:
+      - ./:/var/www
+    command: bash -c "yarn && yarn dev"
+    ports:
+      - "8080:3000"
