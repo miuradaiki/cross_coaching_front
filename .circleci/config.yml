@@ -1,0 +1,66 @@
+# Use the latest 2.1 version of CircleCI pipeline process engine.
+# See: https://circleci.com/docs/2.0/configuration-reference
+version: 2.1
+
+# Define a job to be invoked later in a workflow.
+# See: https://circleci.com/docs/2.0/configuration-reference/#jobs
+jobs:
+  # テスト用のジョブ
+  test:
+    # docker compose　を利用するため、仮想マシンを利用する。（最新版のimageは下記URLを参照）
+    # See: https://circleci.com/docs/ja/configuration-reference#available-linux-machine-images
+    machine:
+      image: ubuntu-2204:current
+    # 作業用のディレクトリを設定
+    working_directory: ~/test_jest
+    # タスクを定義
+    steps:
+      # リポジトリを作業用のディレクトリにpull
+      - checkout
+      # 処理を実行
+      # yarnをインストール
+      - run:
+          name: yarn.lockからyarnを再インストール
+          command: docker compose run --rm front yarn install --frozen-lockfile
+      # テストの実行
+      - run:
+          name: ESLintの実行
+          command: docker compose run --rm front yarn lint
+      - run:
+          name: Jestの実行
+          command: docker compose run --rm front yarn test
+
+  # デプロイ用のジョブ
+  deploy:
+    # docker compose　を利用するため、仮想マシンを利用する。（最新版のimageは下記URLを参照）
+    # See: https://circleci.com/docs/ja/configuration-reference#available-linux-machine-images
+    machine:
+      image: ubuntu-2204:current
+    # 作業用のディレクトリを設定（ディレクトリ名はVercelのプロジェクト名と合わせる）
+    working_directory: ~/cross_coaching_front
+    # タスクを定義
+    steps:
+      # リポジトリを作業用のディレクトリにpull
+      - checkout
+      # 処理を実行
+      # yarnをインストール
+      - run:
+          name: yarn.lockからyarnを再インストール
+          command: docker compose run --rm front yarn install --frozen-lockfile
+      # vercelへのデプロイ処理
+      - run:
+          name: yarn deploy
+          command: yarn deploy
+
+# Invoke jobs via workflows
+# See: https://circleci.com/docs/2.0/configuration-reference/#workflows
+workflows:
+  test-and-deploy-wf:
+    jobs:
+      - test
+      - deploy:
+          requires:
+            - test
+          filters:
+            branches:
+              only: main
