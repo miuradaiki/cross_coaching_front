@@ -33,7 +33,7 @@ export default function useFirebaseAuth() {
       }
     } catch (e) {
       toast.error("ログインできませんでした。")
-    } 
+    }
   }
 
   // ログアウト関数の作成
