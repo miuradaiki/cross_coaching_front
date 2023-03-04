@@ -11,12 +11,62 @@ jobs:
     # See: https://circleci.com/docs/ja/configuration-reference#available-linux-machine-images
     machine:
       image: ubuntu-2204:current
+    # 仮想マシンを利用する場合、CircleCIの環境変数はDockerのコンテナ内へは直接読み込めない。
+    # そのまま代入もできないため、一度parametersを設定する。
+    parameters:
+      next_public_base_url:
+        type: string
+        default: $NEXT_PUBLIC_BASE_URL
+      next_public_firebase_api_key:
+        type: string
+        default: $NEXT_PUBLIC_FIREBASE_API_KEY
+      next_public_firebase_auth_domain:
+        type: string
+        default: $NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN
+      next_public_firebase_project_id:
+        type: string
+        default: $NEXT_PUBLIC_FIREBASE_PROJECT_ID
+      next_public_firebase_storage_bucket:
+        type: string
+        default: $NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET
+      next_public_firebase_messaging_sender_id:
+        type: string
+        default: $NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID
+      next_public_firebase_app_id:
+        type: string
+        default: $NEXT_PUBLIC_FIREBASE_APP_ID
     # 作業用のディレクトリを設定
     working_directory: ~/test_jest
     # タスクを定義
     steps:
       # リポジトリを作業用のディレクトリにpull
       - checkout
+      # .env.localは公開していないため、空ファイルを作成する
+      - run:
+          name: .env.localの空ファイルを作成
+          command: touch .env.local
+      # parametersに設定したCircleCIの環境変数を.env.localに書き込んでDockerコンテナ内で読み込む
+      - run:
+          name: .env.localに環境変数NEXT_PUBLIC_BASE_URLを設定
+          command: echo NEXT_PUBLIC_BASE_URL=<< parameters.next_public_base_url >> >> .env.local
+      - run:
+          name: .env.localに環境変数NEXT_PUBLIC_FIREBASE_API_KEYを設定
+          command: echo NEXT_PUBLIC_FIREBASE_API_KEY=<< parameters.next_public_firebase_api_key >> >> .env.local
+      - run:
+          name: .env.localに環境変数NEXT_PUBLIC_FIREBASE_AUTH_DOMAINを設定
+          command: echo NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=<< parameters.next_public_firebase_auth_domain >> >> .env.local
+      - run:
+          name: .env.localに環境変数NEXT_PUBLIC_FIREBASE_PROJECT_IDを設定
+          command: echo NEXT_PUBLIC_FIREBASE_PROJECT_ID=<< parameters.next_public_firebase_project_id >> >> .env.local
+      - run:
+          name: .env.localに環境変数NEXT_PUBLIC_FIREBASE_STORAGE_BUCKETを設定
+          command: echo NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=<< parameters.next_public_firebase_storage_bucket >> >> .env.local
+      - run:
+          name: .env.localに環境変数NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_IDを設定
+          command: echo NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=<< parameters.next_public_firebase_messaging_sender_id >> >> .env.local
+      - run:
+          name: .env.localに環境変数NEXT_PUBLIC_FIREBASE_APP_IDを設定
+          command: echo NEXT_PUBLIC_FIREBASE_APP_ID=<< parameters.next_public_firebase_app_id >> >> .env.local
       # 処理を実行
       # yarnをインストール
       - run:
@@ -36,12 +86,62 @@ jobs:
     # See: https://circleci.com/docs/ja/configuration-reference#available-linux-machine-images
     machine:
       image: ubuntu-2204:current
+    # 仮想マシンを利用する場合、CircleCIの環境変数はDockerのコンテナ内へは直接読み込めない。
+    # そのまま代入もできないため、一度parametersを設定する。
+    parameters:
+      next_public_base_url:
+        type: string
+        default: $NEXT_PUBLIC_BASE_URL
+      next_public_firebase_api_key:
+        type: string
+        default: $NEXT_PUBLIC_FIREBASE_API_KEY
+      next_public_firebase_auth_domain:
+        type: string
+        default: $NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN
+      next_public_firebase_project_id:
+        type: string
+        default: $NEXT_PUBLIC_FIREBASE_PROJECT_ID
+      next_public_firebase_storage_bucket:
+        type: string
+        default: $NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET
+      next_public_firebase_messaging_sender_id:
+        type: string
+        default: $NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID
+      next_public_firebase_app_id:
+        type: string
+        default: $NEXT_PUBLIC_FIREBASE_APP_ID
     # 作業用のディレクトリを設定（ディレクトリ名はVercelのプロジェクト名と合わせる）
     working_directory: ~/cross_coaching_front
     # タスクを定義
     steps:
       # リポジトリを作業用のディレクトリにpull
       - checkout
+      # .env.localは公開していないため、空ファイルを作成する
+      - run:
+          name: .env.localの空ファイルを作成
+          command: touch .env.local
+      # parametersに設定したCircleCIの環境変数を.env.localに書き込んでDockerコンテナ内で読み込む
+      - run:
+          name: NEXT_PUBLIC_BASE_URL
+          command: echo NEXT_PUBLIC_BASE_URL=<< parameters.next_public_base_url >> >> .env.local
+      - run:
+          name: NEXT_PUBLIC_FIREBASE_API_KEY
+          command: echo NEXT_PUBLIC_FIREBASE_API_KEY=<< parameters.next_public_firebase_api_key >> >> .env.local
+      - run:
+          name: NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN
+          command: echo NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=<< parameters.next_public_firebase_auth_domain >> >> .env.local
+      - run:
+          name: NEXT_PUBLIC_FIREBASE_PROJECT_ID
+          command: echo NEXT_PUBLIC_FIREBASE_PROJECT_ID=<< parameters.next_public_firebase_project_id >> >> .env.local
+      - run:
+          name: NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET
+          command: echo NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=<< parameters.next_public_firebase_storage_bucket >> >> .env.local
+      - run:
+          name: NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID
+          command: echo NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=<< parameters.next_public_firebase_messaging_sender_id >> >> .env.local
+      - run:
+          name: NEXT_PUBLIC_FIREBASE_APP_IDを設定
+          command: echo NEXT_PUBLIC_FIREBASE_APP_ID=<< parameters.next_public_firebase_app_id >> >> .env.local
       # 処理を実行
       # yarnをインストール
       - run:
