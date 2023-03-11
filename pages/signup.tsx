@@ -3,7 +3,7 @@ import React, { useState } from "react"
 import { useRouter } from "next/router"
 import Link from "next/link"
 import { Alert, Button, InputLabel, Snackbar, TextField } from "@mui/material"
-import { createUserWithEmailAndPassword } from "firebase/auth"
+import { createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth"
 import { useAuthContext } from "../context/AuthContext"
 import { auth } from "../initFirebase"
 
@@ -16,7 +16,12 @@ const SignUp: NextPage = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    await createUserWithEmailAndPassword(auth, email, password)
+    const userCredential = await createUserWithEmailAndPassword(
+      auth,
+      email,
+      password
+    )
+    await sendEmailVerification(userCredential.user)
     router.push("/")
   }
   const handleClose = async () => {
