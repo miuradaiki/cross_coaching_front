@@ -1,6 +1,6 @@
 import type { NextPage } from "next"
 // components
-import Post from "../../src/features/post/components"
+import Post from "../../src/features/post/components/Post"
 // // hooks
 import { useFetchPosts } from "../../src/features/post/hooks"
 
