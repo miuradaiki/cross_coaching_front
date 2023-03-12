@@ -3,6 +3,7 @@ import Image from 'next/image'
 import { Inter } from '@next/font/google'
 import styles from '@/styles/Home.module.css'
 import { Button } from "@mui/material"
+import Link from "next/link"
 
 import { signOut } from "firebase/auth"
 import { useRouter } from "next/router"
@@ -34,6 +35,18 @@ export default function Home() {
             height={80}
             priority
           />
+        </div>
+        <div>
+          ユーザ登録は
+          <Link href={"/signup"}>
+            こちら
+          </Link>
+          から
+        </div>
+        <div>
+          <Link href={"/login"}>
+            すでに登録している人はこちら
+          </Link>
         </div>
         <div className={styles.description}>
           <div>
