@@ -8,7 +8,7 @@ WORKDIR /var/www
 ENV HOST 0.0.0.0
 
 # Expose port
-EXPOSE 3000
+# EXPOSE 3000
 
 # Init command
 CMD ["sh", "-c", "yarn install && yarn dev"]
