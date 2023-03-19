@@ -9,7 +9,7 @@ services:
       - ./:/var/www
     command: bash -c "yarn && yarn dev"
     ports:
-      - "8080:3000"
+      - "8080:8080"
     # 環境変数の読み込み
     env_file:
       - .env.local
