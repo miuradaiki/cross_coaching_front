@@ -1,7 +1,8 @@
 import axios from "axios"
+import "firebase/compat/auth"
+import { getAuth } from "firebase/auth"
 
-const baseURL = process.env.NEXT_PUBLIC_APP_API_ENDPOINT
-
+const baseURL = process.env.NEXT_PUBLIC_BASE_URL
 const headers = {
   "Content-Type": "application/json",
 }
@@ -28,8 +29,9 @@ ApiClient.interceptors.response.use(
   }
 )
 
-// ApiClient.interceptors.request.use(async (config) => {
-//   const accessToken = getAccessToken()
-//   config.headers["access-token"] =  accessToken
-//   return config
-// })
+ApiClient.interceptors.request.use(async (config: any) => {
+  const auth = getAuth()
+  const token = await auth.currentUser.getIdToken(true)
+  config.headers.authorization = `Bearer ${token}`
+  return config
+})
