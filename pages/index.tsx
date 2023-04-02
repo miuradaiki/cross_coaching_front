@@ -48,6 +48,11 @@ export default function Home() {
             すでに登録している人はこちら
           </Link>
         </div>
+        <div>
+          <Link href={"/questions"}>
+            コーチングをはじめる
+          </Link>
+        </div>
         <div className={styles.description}>
           <div>
             <Button type="submit" variant="outlined" onClick={handleLogout}>
