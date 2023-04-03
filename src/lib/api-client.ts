@@ -1,6 +1,4 @@
 import axios from "axios"
-import "firebase/compat/auth"
-import { getAuth } from "firebase/auth"
 
 const baseURL = process.env.NEXT_PUBLIC_BASE_URL
 const headers = {
@@ -29,9 +27,10 @@ ApiClient.interceptors.response.use(
   }
 )
 
-ApiClient.interceptors.request.use(async (config: any) => {
-  const auth = getAuth()
-  const token = await auth.currentUser.getIdToken(true)
-  config.headers.authorization = `Bearer ${token}`
-  return config
-})
+// Firebaseの認証が非同期で行われているため、コンポーネントの初期レンダリング時に認証が完了する前にgetXXXX関数が呼び出され、getAuth().currentUserがnullを返してしまう。
+// ApiClient.interceptors.request.use(async (config: any) => {
+//   const token = await getAuth().currentUser?.getIdToken()
+//   console.log(token)
+//   config.headers.authorization = `Bearer ${token}`
+//   return config
+// })
