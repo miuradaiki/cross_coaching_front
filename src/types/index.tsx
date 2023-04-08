@@ -6,14 +6,14 @@ export type PostType = {
 }
 
 export interface PostInputs {
-  title: string;
-  body: string;
+  title: string
+  body: string
 }
 
 export interface PostData extends PostInputs {
-  id: number;
-  user_uid: string;
-  created_at: string;
+  id: number
+  user_uid: string
+  created_at: string
 }
 
 export type QuestionType = {
@@ -23,23 +23,23 @@ export type QuestionType = {
 }
 
 export interface QuestionInputs {
-  title: string;
-  body: string;
+  title: string
+  description: string
 }
 
 export interface QuestionData extends QuestionInputs {
-  id: number;
-  user_id: string;
-  created_at: string;
+  id: number
+  title: string
+  description: string
 }
 
 export interface AnswerInputs {
-  title: string;
-  body: string;
+  title: string
+  body: string
 }
 
 export interface AnswerData extends AnswerInputs {
-  id: number;
-  user_id: string;
-  created_at: string;
+  id: number
+  user_id: string
+  created_at: string
 }
