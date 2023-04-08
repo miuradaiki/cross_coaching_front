@@ -1,19 +1,22 @@
 import React from "react"
 import { QuestionType } from "../../../models/question_model"
+import Link from "next/link"
 
 type Props = {
   questions: QuestionType[]
 }
 
 /* UIの描画のみ責務を持っている */
-export const Question: React.FC<Props> = (props) => {
+export const Questions: React.FC<Props> = (props) => {
   return (
     <>
       <div>
         <ul>
-          {props.questions.map((i) => (
+          {props.questions && props.questions.map((i) => (
             <li key={i.id}>
-              {i.title}
+              <Link href={`/questions/${i.id}`}>
+                {i.title}
+              </Link>
               <span></span>
             </li>
           ))}
@@ -23,4 +26,4 @@ export const Question: React.FC<Props> = (props) => {
   )
 }
 
-export default Question
+export default Questions

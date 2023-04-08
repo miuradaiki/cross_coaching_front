@@ -1,6 +1,6 @@
 import type { NextPage } from "next"
 // components
-import Question from "../../src/features/question/components/Questions"
+import Questions from "../../src/features/question/components/Questions"
 // // hooks
 import { useFetchQuestions } from "../../src/features/question/hooks"
 
@@ -8,7 +8,7 @@ import { useFetchQuestions } from "../../src/features/question/hooks"
 const Page: NextPage = () => {
   const { questions } = useFetchQuestions()
 
-  return <Question questions={questions} />
+  return <Questions questions={questions} />
 }
 
 export default Page
