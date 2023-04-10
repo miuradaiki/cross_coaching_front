@@ -12,7 +12,7 @@ export interface PostInputs {
 
 export interface PostData extends PostInputs {
   id: number
-  user_uid: string
+  user_uid: number
   created_at: string
 }
 
@@ -33,13 +33,21 @@ export interface QuestionData extends QuestionInputs {
   description: string
 }
 
+export type AnswerType = {
+  id: number
+  user_id: number
+  description:string
+}
+
 export interface AnswerInputs {
   title: string
-  body: string
+  description: string
 }
 
 export interface AnswerData extends AnswerInputs {
   id: number
-  user_id: string
+  user_id: number
+  question_id: number
+  description: string
   created_at: string
 }
