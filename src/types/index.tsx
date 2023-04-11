@@ -40,7 +40,6 @@ export type AnswerType = {
 }
 
 export interface AnswerInputs {
-  title: string
   description: string
 }
 
