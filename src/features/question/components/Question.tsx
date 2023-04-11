@@ -1,7 +1,7 @@
 import React from "react"
 import Head from "next/head"
 import { useForm, SubmitHandler } from "react-hook-form"
-import { QuestionType, AnswerInputs, AnswerType } from "src/types"
+import { QuestionType, AnswerData, AnswerType } from "src/types"
 import { toast } from "react-toastify"
 import { useAuthContext } from "context/AuthContext"
 import axios from "axios"
@@ -23,9 +23,9 @@ export const Question: React.FC<Props> = (props) => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<AnswerInputs>()
+  } = useForm<AnswerData>()
 
-  const onSubmit: SubmitHandler<AnswerInputs> = (answerInputData) => {
+  const onSubmit: SubmitHandler<AnswerData> = (answerInputData) => {
     return isAddMode
       ? createAnswer(answerInputData)
       : updateAnswer(props.answer.id, answerInputData)
@@ -39,13 +39,18 @@ export const Question: React.FC<Props> = (props) => {
     return config
   }
 
-  async function createAnswer(answerInputData: AnswerInputs) {
+  async function createAnswer(answerInputData: AnswerData) {
     const config = await setConfig()
 
     try {
       const response = await axios.post(
         "/api/v1/answers",
-        { answer: answerInputData },
+        { answer: {
+            user_id: currentUser?.uid,
+            question_id: props.question.id,
+            description: answerInputData.description,
+          },
+        },
         config
       )
       if (response.status === 200) {
@@ -65,12 +70,12 @@ export const Question: React.FC<Props> = (props) => {
     }
   }
 
-  async function updateAnswer(id: number, answerInputData: AnswerInputs) {
+  async function updateAnswer(id: number, answerInputData: AnswerData) {
     const config = await setConfig()
 
     try {
       const response = await axios.patch(
-        `/answers/${id}`,
+        `api/v1/answers/${id}`,
         { answer: answerInputData },
         config
       )
