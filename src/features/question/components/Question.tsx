@@ -1,7 +1,8 @@
 import React from "react"
 import Head from "next/head"
 import { useForm, SubmitHandler } from "react-hook-form"
-import { QuestionType, AnswerData, AnswerType } from "src/types"
+import { AnswerData, AnswerType } from "src/models/answer_model"
+import { QuestionType } from "src/models/question_model"
 import { toast } from "react-toastify"
 import { useAuthContext } from "context/AuthContext"
 import axios from "axios"
@@ -10,13 +11,15 @@ import { useRouter } from "next/router"
 export type Props = {
   question: QuestionType
   answer: AnswerType
+  AnswerData: AnswerData
 }
 
 /* UIの描画のみ責務を持っている */
 /* FIXME：フォーム追加によりロジックが増えたので切り出す */
-export const Question: React.FC<Props> = (props) => {
+export const Question: React.FC<Props> = (props: Props) => {
   const { currentUser } = useAuthContext()
   const router = useRouter()
+  const answer = props.answer
   const isAddMode = !props.answer
 
   const {
@@ -134,12 +137,13 @@ export const Question: React.FC<Props> = (props) => {
                 </label>
                 <textarea
                   {...register("description", { required: true, maxLength: 500 })}
+                  defaultValue={answer ? answer.description : ""}
                   id="description"
                   name="description"
                   className="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 h-32 text-base outline-none text-gray-700 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out"
                 ></textarea>
                 {errors.description &&
-                  "Body is required and should be less than 500 characters."}
+                  "500文字以下で回答してください。"}
               </div>
             </div>
             <div className="p-2 w-full">
