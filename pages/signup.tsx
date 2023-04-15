@@ -6,6 +6,7 @@ import { Alert, Button, InputLabel, Snackbar, TextField } from "@mui/material"
 import { createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth"
 import { useAuthContext } from "../context/AuthContext"
 import { auth } from "../initFirebase"
+import axios from "axios"
 
 const SignUp: NextPage = () => {
   const router = useRouter()
@@ -14,14 +15,20 @@ const SignUp: NextPage = () => {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+  const createUserAndSendUid = async (email: string, password: string) => {
     const userCredential = await createUserWithEmailAndPassword(
       auth,
       email,
       password
     )
-    await sendEmailVerification(userCredential.user)
+    const uid = userCredential.user.uid
+    await axios.post("/api/v1/users", { email, uid })
+    return uid
+  }
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    const uid = await createUserAndSendUid(email, password)
     router.push("/")
   }
   const handleClose = async () => {
