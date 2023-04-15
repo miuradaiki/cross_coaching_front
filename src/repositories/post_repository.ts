@@ -10,23 +10,23 @@ export type PostRepository = {
   deletePost: (params: Pick<PostType, "id">) => Promise<void>
 }
 
-const getPosts = async (): Promise<PostType[]> => {
+const getPosts : PostRepository["getPosts"] = async (): Promise<PostType[]> => {
   const response = await ApiClient.get(`/posts`)
   return response.data
 }
 
-const getPost = async (params: Pick<PostType, "id">): Promise<PostType> => {
+const getPost : PostRepository["getPost"] = async (params: Pick<PostType, "id">): Promise<PostType> => {
   const response = await ApiClient.get(`/posts/${params.id}`)
   return response.data
 }
 
-const createPost = async (
+const createPost : PostRepository["createPost"] = async (
   params: Omit<PostType, "id">
 ) => {
   await ApiClient.post(`/posts`, params)
 }
 
-const deletePost = async (params: Pick<PostType, "id">) => {
+const deletePost : PostRepository["deletePost"] = async (params: Pick<PostType, "id">) => {
   await ApiClient.post(`/posts/${params.id}`, params)
 }
 
