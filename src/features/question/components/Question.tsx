@@ -100,6 +100,39 @@ export const Question: React.FC<Props> = (props: Props) => {
     }
   }
 
+  // 回答のシェア
+  async function shareAnswer () {
+    const answer_id = props.answer.id
+    console.log(answer_id)
+    const result = confirm("本当にシェアしますか？シェアした回答は他のユーザーも閲覧できます。")
+    if (result) {
+      const config = await setConfig()
+
+      try {
+        const response = await axios.post(
+          `api/v1/shares`,
+          { share: {
+              user_id: currentUser?.uid,
+              answer_id: answer_id
+            },
+          },
+          config
+        )
+        if (response.status === 200) {
+          router.reload()
+        }
+      } catch (err) {
+        let message
+        if (axios.isAxiosError(err) && err.response) {
+          console.error(err.response.data.message)
+        } else {
+          message = String(err)
+          console.error(message)
+        }
+      }
+    }
+  }
+
   if (!props.question) {
     return <div>Loading...</div>
   }
@@ -155,6 +188,15 @@ export const Question: React.FC<Props> = (props: Props) => {
               </button>
             </div>
           </form>
+          <div className="p-2 w-full">
+              <button
+                onClick={shareAnswer}
+                disabled={isAddMode}
+                className="flex mx-auto text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg"
+              >
+                {isAddMode ? "回答後シェアができます" : "シェアする"}
+              </button>
+            </div>
         </div>
       </div>
     </>
