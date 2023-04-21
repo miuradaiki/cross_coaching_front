@@ -4,7 +4,31 @@ import { getAuth } from "firebase/auth"
 import axios from 'axios'
 
 export type AnswerRepository = {
+  getAnswers: () => Promise<AnswerType[]>
   getAnswer: (params: Pick<AnswerType, "id">) => Promise<AnswerType>
+}
+
+const getAnswers = async (): Promise<AnswerType[]> => {
+  return new Promise((resolve, reject) => {
+    const unsubscribe = getAuth().onAuthStateChanged(async (user) => {
+      if (user) {
+        try {
+          const token = await user.getIdToken()
+          const result = await axios.get(`api/v1/answers`, {
+            headers: { authorization: `Bearer ${token}` },
+          })
+          resolve(result.data)
+        } catch (error) {
+          reject(error)
+        } finally {
+          unsubscribe()
+        }
+      } else {
+        unsubscribe()
+        reject(new Error("User is not authenticated"))
+      }
+    })
+  })
 }
 
 const getAnswer = async (params: Pick<AnswerType, "id">): Promise<AnswerType> => {
@@ -31,5 +55,6 @@ const getAnswer = async (params: Pick<AnswerType, "id">): Promise<AnswerType> =>
 }
 
 export const answerRepository: AnswerRepository = {
+  getAnswers,
   getAnswer
 }
