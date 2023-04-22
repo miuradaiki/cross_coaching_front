@@ -1,7 +1,7 @@
 import React from "react"
 import Head from "next/head"
 import { useForm, SubmitHandler } from "react-hook-form"
-import { AnswerData, AnswerType } from "src/models/answer_model"
+import { AnswerType } from "src/models/answer_model"
 import { QuestionType } from "src/models/question_model"
 import { toast } from "react-toastify"
 import { useAuthContext } from "context/AuthContext"
@@ -11,7 +11,6 @@ import { useRouter } from "next/router"
 export type Props = {
   question: QuestionType
   answer: AnswerType
-  AnswerData: AnswerData
 }
 
 /* UIの描画のみ責務を持っている */
@@ -26,9 +25,9 @@ export const Question: React.FC<Props> = (props: Props) => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<AnswerData>()
+  } = useForm<AnswerType>()
 
-  const onSubmit: SubmitHandler<AnswerData> = (answerInputData) => {
+  const onSubmit: SubmitHandler<AnswerType> = (answerInputData) => {
     return isAddMode
       ? createAnswer(answerInputData)
       : updateAnswer(props.answer.id, answerInputData)
@@ -42,7 +41,7 @@ export const Question: React.FC<Props> = (props: Props) => {
     return config
   }
 
-  async function createAnswer(answerInputData: AnswerData) {
+  async function createAnswer(answerInputData: AnswerType) {
     const config = await setConfig()
 
     try {
@@ -73,7 +72,7 @@ export const Question: React.FC<Props> = (props: Props) => {
     }
   }
 
-  async function updateAnswer(id: number, answerInputData: AnswerData) {
+  async function updateAnswer(id: number, answerInputData: AnswerType) {
     const config = await setConfig()
 
     try {
