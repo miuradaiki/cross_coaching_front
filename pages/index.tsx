@@ -53,6 +53,11 @@ export default function Home() {
             コーチングをはじめる
           </Link>
         </div>
+        <div>
+          <Link href={"/shares"}>
+            シェア一覧
+          </Link>
+        </div>
         <div className={styles.description}>
           <div>
             <Button type="submit" variant="outlined" onClick={handleLogout}>
