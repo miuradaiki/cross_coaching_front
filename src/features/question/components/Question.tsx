@@ -9,8 +9,8 @@ import axios from "axios"
 import { useRouter } from "next/router"
 
 export type Props = {
-  question: QuestionType
-  answer: AnswerType
+  question?: QuestionType
+  answer?: AnswerType
 }
 
 /* UIの描画のみ責務を持っている */
@@ -28,9 +28,12 @@ export const Question: React.FC<Props> = (props: Props) => {
   } = useForm<AnswerType>()
 
   const onSubmit: SubmitHandler<AnswerType> = (answerInputData) => {
-    return isAddMode
-      ? createAnswer(answerInputData)
-      : updateAnswer(props.answer.id, answerInputData)
+    if (props.answer) {
+      return isAddMode
+        ? createAnswer(answerInputData)
+        : updateAnswer(props.answer.id, answerInputData)
+    }
+    return null
   }
 
   async function setConfig() {
@@ -49,7 +52,7 @@ export const Question: React.FC<Props> = (props: Props) => {
         "/api/v1/answers",
         { answer: {
             user_id: currentUser?.uid,
-            question_id: props.question.id,
+            question_id: props.question?.id,
             description: answerInputData.description,
           },
         },
@@ -101,7 +104,7 @@ export const Question: React.FC<Props> = (props: Props) => {
 
   // 回答のシェア
   async function shareAnswer () {
-    const answer_id = props.answer.id
+    const answer_id = props.answer?.id
     console.log(answer_id)
     const result = confirm("本当にシェアしますか？シェアした回答は他のユーザーも閲覧できます。")
     if (result) {
