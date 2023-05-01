@@ -97,11 +97,11 @@ export const Share: React.FC<Props> = (props: Props) => {
       <div>Feedbacks</div>
       <div>
         <ul>
-          {props.feedbacks.map((i) => (
-            <li key={i.id}>
-              {i.description}
+          {props.feedbacks.map((feedback) => (
+            <li key={feedback.id}>
+              {feedback.description}
               <span></span>
-              <VoteButton feedbackId={i.id} userId={currentUser?.uid}/>
+              <VoteButton feedbackId={feedback.id} userId={currentUser?.uid} totalUpVotes={feedback.total_up_votes}  totalDownVotes={feedback.total_down_votes} totalVotes={feedback.total_votes}/>
             </li>
           ))}
         </ul>
