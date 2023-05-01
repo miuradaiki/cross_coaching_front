@@ -5,13 +5,16 @@ import { useAuthContext } from "context/AuthContext"
 export interface VoteButtonProps {
   feedbackId: number
   userId: string | undefined
+  totalUpVotes: number
+  totalDownVotes: number
+  totalVotes: number
 }
 
-export const VoteButton = ({ feedbackId, userId }: VoteButtonProps) => {
+export const VoteButton = ({ feedbackId, userId, totalUpVotes, totalDownVotes, totalVotes }: VoteButtonProps) => {
   const { currentUser } = useAuthContext()
   const [votes, setVotes] = useState({
-    upvotes: 0,
-    downvotes: 0,
+    upvotes: totalUpVotes,
+    downvotes: totalDownVotes,
   })
 
   async function setConfig() {
@@ -65,6 +68,7 @@ export const VoteButton = ({ feedbackId, userId }: VoteButtonProps) => {
       >
         Downvote ({votes.downvotes})
       </button>
+      <span>Total votes: {totalVotes}</span>
     </>
   )
 }
