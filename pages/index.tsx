@@ -58,6 +58,11 @@ export default function Home() {
             シェア一覧
           </Link>
         </div>
+        <div>
+          <Link href={"/feedbacks"}>
+            フィードバック一覧
+          </Link>
+        </div>
         <div className={styles.description}>
           <div>
             <Button type="submit" variant="outlined" onClick={handleLogout}>
