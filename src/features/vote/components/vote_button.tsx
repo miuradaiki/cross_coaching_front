@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import axios from "axios"
 import { useAuthContext } from "context/AuthContext"
 
@@ -10,7 +10,14 @@ export interface VoteButtonProps {
   totalVotes: number
 }
 
-export const VoteButton = ({ feedbackId, userId, totalUpVotes, totalDownVotes, totalVotes }: VoteButtonProps) => {
+export const VoteButton = ({
+  feedbackId,
+  userId,
+  totalUpVotes,
+  totalDownVotes,
+  totalVotes,
+  isVoted,
+}: VoteButtonProps) => {
   const { currentUser } = useAuthContext()
   const [votes, setVotes] = useState({
     upvotes: totalUpVotes,
@@ -26,6 +33,10 @@ export const VoteButton = ({ feedbackId, userId, totalUpVotes, totalDownVotes, t
   }
 
   const handleVote = async (type: "up" | "down") => {
+    if (isVoted) {
+      return
+    }
+
     const config = await setConfig()
 
     if (!userId) {
@@ -48,6 +59,8 @@ export const VoteButton = ({ feedbackId, userId, totalUpVotes, totalDownVotes, t
           upvotes: data.upvotes,
           downvotes: data.downvotes,
         })
+        // setIsVoted(true) // 投票後にisVotedを更新する
+        setVotedFeedbackIds([...votedFeedbackIds, feedbackId])
       }
     } catch (error) {
       console.error(error)
@@ -58,13 +71,15 @@ export const VoteButton = ({ feedbackId, userId, totalUpVotes, totalDownVotes, t
     <>
       <button
         onClick={() => handleVote("up")}
-        className="border p-2"
+        className={`border p-2 ${isVoted ? 'cursor-not-allowed opacity-50' : ''}`}
+        disabled={isVoted}
       >
         Upvote ({votes.upvotes})
       </button>
       <button
         onClick={() => handleVote("down")}
-        className="border p-2"
+        className={`border p-2 ${isVoted ? 'cursor-not-allowed opacity-50' : ''}`}
+        disabled={isVoted}
       >
         Downvote ({votes.downvotes})
       </button>

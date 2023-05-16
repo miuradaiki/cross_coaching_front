@@ -9,6 +9,7 @@ import { useAuthContext } from "context/AuthContext"
 import axios from "axios"
 import { useRouter } from "next/router"
 import { VoteButton } from "src/features/vote/components/vote_button"
+import { useState, useEffect } from "react"
 
 export type Props = {
   question?: QuestionType
@@ -27,6 +28,22 @@ export const Share: React.FC<Props> = (props: Props) => {
     handleSubmit,
     formState: { errors },
   } = useForm<FeedbackType>()
+
+  const [votedFeedbackIds, setVotedFeedbackIds] = useState<number[]>([])
+
+  useEffect(() => {
+    const fetchVotedFeedbackIds = async () => {
+      const config = await setConfig()
+      const response = await axios.get(
+        `/api/v1/votes/voted_feedbacks/${currentUser?.uid}`,
+        config
+      )
+      const votedFeedbackIds = response.data
+      setVotedFeedbackIds(votedFeedbackIds)
+    }
+
+    fetchVotedFeedbackIds()
+  }, [currentUser])
 
   const onSubmit: SubmitHandler<FeedbackType> = (feedbackInputData) => {
     createFeedback(feedbackInputData)
@@ -101,7 +118,14 @@ export const Share: React.FC<Props> = (props: Props) => {
             <li key={feedback.id}>
               {feedback.description}
               <span></span>
-              <VoteButton feedbackId={feedback.id} userId={currentUser?.uid} totalUpVotes={feedback.total_up_votes}  totalDownVotes={feedback.total_down_votes} totalVotes={feedback.total_votes}/>
+              <VoteButton
+                feedbackId={feedback.id}
+                userId={currentUser?.uid}
+                totalUpVotes={feedback.total_up_votes}
+                totalDownVotes={feedback.total_down_votes}
+                totalVotes={feedback.total_votes}
+                isVoted={votedFeedbackIds.includes(feedback.id)}
+              />
             </li>
           ))}
         </ul>
