@@ -6,6 +6,7 @@ import axios from 'axios'
 
 export type FeedbackRepository = {
   getFeedbacks: (params: Pick<FeedbackType, "id">) => Promise<FeedbackType[]>
+  getMyFeedbacks: () => Promise<FeedbackType[]>
   getFeedback: (params: Pick<FeedbackType, "id">) => Promise<FeedbackType>
 }
 
@@ -14,6 +15,29 @@ export type FeedbackRepository = {
 //   const response = await ApiClient.get(`api/v1/feedback`)
 //   return response.data
 // }
+const getMyFeedbacks = async (): Promise<FeedbackType[]> => {
+  return new Promise((resolve, reject) => {
+    const unsubscribe = getAuth().onAuthStateChanged(async (user) => {
+      if (user) {
+        try {
+          const token = await user.getIdToken()
+          const result = await axios.get(`api/v1/my_feedbacks`, {
+            headers: { authorization: `Bearer ${token}` },
+          })
+          resolve(result.data)
+        } catch (error) {
+          reject(error)
+        } finally {
+          unsubscribe()
+        }
+      } else {
+        unsubscribe()
+        reject(new Error("User is not authenticated"))
+      }
+    })
+  })
+}
+
 const getFeedbacks = async (params: Pick<FeedbackType, "id">): Promise<FeedbackType[]> => {
   return new Promise((resolve, reject) => {
     const unsubscribe = getAuth().onAuthStateChanged(async (user) => {
@@ -62,6 +86,7 @@ const getFeedback = async (params: Pick<FeedbackType, "id">): Promise<FeedbackTy
 }
 
 export const feedbackRepository: FeedbackRepository = {
+  getMyFeedbacks,
   getFeedbacks,
   getFeedback
 }
