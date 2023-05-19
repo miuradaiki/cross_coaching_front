@@ -7,4 +7,6 @@ export type FeedbackType = {
   total_up_votes: number
   total_down_votes: number
   total_votes: number
+  answer_description: string
+  feedback_description: string
 }
