@@ -23,6 +23,7 @@ const SignUp: NextPage = () => {
     )
     const uid = userCredential.user.uid
     await axios.post("/api/v1/users", { email, uid })
+    await sendEmailVerification(userCredential.user)
     return uid
   }
 
