@@ -29,11 +29,9 @@ export const Question: React.FC<Props> = (props: Props) => {
 
   const onSubmit: SubmitHandler<AnswerType> = (answerInputData) => {
     if (props.answer) {
-      return isAddMode
-        ? createAnswer(answerInputData)
-        : updateAnswer(props.answer.id, answerInputData)
+      updateAnswer(props.answer.id, answerInputData)
     }
-    return null
+    createAnswer(answerInputData)
   }
 
   async function setConfig() {
@@ -51,7 +49,6 @@ export const Question: React.FC<Props> = (props: Props) => {
       const response = await axios.post(
         "/api/v1/answers",
         { answer: {
-            user_id: currentUser?.uid,
             question_id: props.question?.id,
             description: answerInputData.description,
           },
@@ -105,7 +102,6 @@ export const Question: React.FC<Props> = (props: Props) => {
   // 回答のシェア
   async function shareAnswer () {
     const answer_id = props.answer?.id
-    console.log(answer_id)
     const result = confirm("本当にシェアしますか？シェアした回答は他のユーザーも閲覧できます。")
     if (result) {
       const config = await setConfig()
@@ -113,11 +109,7 @@ export const Question: React.FC<Props> = (props: Props) => {
       try {
         const response = await axios.post(
           `api/v1/shares`,
-          { share: {
-              user_id: currentUser?.uid,
-              answer_id: answer_id
-            },
-          },
+          { share: { answer_id: answer_id } },
           config
         )
         if (response.status === 200) {

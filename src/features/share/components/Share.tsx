@@ -64,7 +64,6 @@ export const Share: React.FC<Props> = (props: Props) => {
       const response = await axios.post(
         "/api/v1/feedbacks",
         { feedback: {
-            user_id: currentUser?.uid,
             answer_id: props.answer?.id,
             description: feedbackInputData.description,
           },
