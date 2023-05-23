@@ -8,6 +8,7 @@ export interface VoteButtonProps {
   totalUpVotes: number
   totalDownVotes: number
   totalVotes: number
+  isVoted: boolean
 }
 
 export const VoteButton = ({
@@ -23,6 +24,7 @@ export const VoteButton = ({
     upvotes: totalUpVotes,
     downvotes: totalDownVotes,
   })
+  const [votedFeedbackIds, setVotedFeedbackIds] = useState<number[]>([])
 
   async function setConfig() {
     const token = await currentUser?.getIdToken()
