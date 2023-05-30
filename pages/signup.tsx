@@ -54,37 +54,72 @@ const SignUp: NextPage = () => {
           すでにログインしています
         </Alert>
       </Snackbar>
-      <h2>ユーザー登録</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <InputLabel>メールアドレス</InputLabel>
-          <TextField
-            name="email"
-            type="email"
-            size="small"
-            onChange={handleChangeEmail}
-          />
+
+      <div className="mt-40">
+        <div className="flex justify-center">
+          <div>
+            <h2 className="text-center text-4xl">Sign up</h2>
+            <form onSubmit={handleSubmit} className="w-72 mt-10">
+              <div>
+                <TextField
+                  name="email"
+                  type="email"
+                  size="small"
+                  label="メールアドレス"
+                  margin="normal"
+                  fullWidth
+                  onChange={handleChangeEmail}
+                />
+              </div>
+              <div>
+                <TextField
+                  name="last_name"
+                  type="name"
+                  size="small"
+                  label="姓"
+                  margin="normal"
+                  fullWidth
+                  onChange={handleChangeEmail}
+                  />
+              </div>
+              <div>
+                <TextField
+                  name="first_name"
+                  type="name"
+                  size="small"
+                  label="名"
+                  margin="normal"
+                  fullWidth
+                  onChange={handleChangeEmail}
+                  />
+              </div>
+              <div className="text-xs">※匿名サービスのため名前は公開されません</div>
+              <div>
+                <TextField
+                  name="password"
+                  type="password"
+                  size="small"
+                  label="パスワード"
+                  margin="normal"
+                  fullWidth
+                  onChange={handleChangePassword}
+                />
+              </div>
+              <div className="text-center mt-8">
+                <Button type="submit" variant="outlined">
+                  登録する
+                </Button>
+              </div>
+              <div className="text-center mt-10">
+                すでに登録している人は
+                <Link href={"/login"} className="text-sky-600 underline decoration-sky-400">
+                  こちら
+                </Link>
+              </div>
+            </form>
+          </div>
         </div>
-        <div>
-          <InputLabel>パスワード</InputLabel>
-          <TextField
-            name="password"
-            type="password"
-            size="small"
-            onChange={handleChangePassword}
-          />
-        </div>
-        <div>
-          <Button type="submit" variant="outlined">
-            登録
-          </Button>
-        </div>
-        <div>
-          <Link href={"/login"}>
-            すでに登録している人はこちら
-          </Link>
-        </div>
-      </form>
+      </div>
     </div>
   )
 }
