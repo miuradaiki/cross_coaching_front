@@ -48,39 +48,49 @@ const Login = () => {
       >
         <Alert severity="warning">ログインしてください</Alert>
       </Snackbar>
-      <h2>ログイン</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <InputLabel>メールアドレス</InputLabel>
-          <TextField
-            name="email"
-            type="email"
-            size="small"
-            onChange={handleChangeEmail}
-          />
+
+      <div className="mt-40">
+        <div className="flex justify-center">
+          <div>
+            <h2 className="text-center text-4xl">Login</h2>
+            <form onSubmit={handleSubmit} className="w-72 mt-10">
+              <div>
+                <TextField
+                  name="email"
+                  type="email"
+                  size="small"
+                  label="メールアドレス"
+                  margin="normal"
+                  fullWidth
+                  onChange={handleChangeEmail}
+                />
+              </div>
+              <div>
+                <TextField
+                  name="password"
+                  type="password"
+                  size="small"
+                  label="パスワード"
+                  margin="normal"
+                  fullWidth
+                  onChange={handleChangePassword}
+                />
+              </div>
+              <div className="text-center mt-8">
+                <Button type="submit" variant="outlined">
+                  ログインする
+                </Button>
+              </div>
+              <div className="text-center mt-10">
+                ユーザ登録は
+                <Link href={"/signup"} className="text-sky-600 underline decoration-sky-400">
+                  こちら
+                </Link>
+              </div>
+            </form>
+          </div>
         </div>
-        <div>
-          <InputLabel>パスワード</InputLabel>
-          <TextField
-            name="password"
-            type="password"
-            size="small"
-            onChange={handleChangePassword}
-          />
-        </div>
-        <div>
-          <Button type="submit" variant="outlined">
-            ログイン
-          </Button>
-        </div>
-        <div>
-          ユーザ登録は
-          <Link href={"/signup"}>
-            こちら
-          </Link>
-          から
-        </div>
-      </form>
+      </div>
     </div>
   )
 }
