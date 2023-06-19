@@ -1,9 +1,8 @@
 import React from "react"
 import { QuestionType } from "../../../models/question_model"
 import Link from "next/link"
-import { ListCard } from "../../../../components/ListCard"
+import { ListCard } from "../../../../components/questions/ListCard"
 import styles from '@/styles/Question.module.css'
-import { spacing } from '@mui/system'
 import Box from '@mui/material/Box'
 import Container from '@mui/material/Container'
 
