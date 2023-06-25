@@ -5,6 +5,10 @@ import { getAuth, sendPasswordResetEmail, deleteUser, signOut } from "firebase/a
 import axios from "axios"
 import { useAuthContext } from "context/AuthContext"
 import { useRouter } from "next/router"
+import Box from '@mui/material/Box'
+import Container from '@mui/material/Container'
+import Typography from '@mui/material/Typography'
+import styles from '@/styles/Profile.module.css'
 
 type Props = {
   profile?: ProfileType
@@ -59,30 +63,44 @@ export const Profile: React.FC<Props> = () => {
   return (
     <>
       <div>
-        <h1>Profile</h1>
-        <form onSubmit={resetEmail}>
+      <Container sx={{ maxWidth: 800 }} className={styles.container}>
+        <Box sx={{ mt: 4 }}>
+          <h1 className={styles.title}>Profile</h1>
+          <form onSubmit={resetEmail}>
+            <div>
+              <Typography sx={{ mt: 4 }} textAlign="center">
+                パスワード変更
+              </Typography>
+              <Typography sx={{ mt: 1 }} textAlign="center" variant="body2" color="text.secondary">
+                登録したメールアドレスを入力してください。
+              </Typography>
+              <Box sx={{ mt: 4 }} textAlign="center">
+                <TextField
+                  name="email"
+                  type="email"
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </Box>
+              <Box sx={{ mt: 4 }} textAlign="center">
+                <Button type="submit" variant="outlined">
+                  更新する
+                </Button>
+              </Box>
+            </div>
+          </form>
+        </Box>
+        <Box sx={{ mt: 12 }} textAlign="center">
           <div>
-            <InputLabel>パスワード変更</InputLabel>
-            <p>登録したメールアドレスを入力してください。</p>
-            <TextField
-              name="email"
-              type="email"
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <Button type="submit" variant="outlined">
-              更新する
-            </Button>
+            <form onSubmit={deleteCurrentUser}>
+              <Button type="submit">
+                退会する
+              </Button>
+            </form>
           </div>
-        </form>
+        </Box>
+      </Container>
       </div>
 
-      <div>
-        <form onSubmit={deleteCurrentUser}>
-          <Button type="submit">
-            退会する
-          </Button>
-        </form>
-      </div>
     </>
   )
 }
