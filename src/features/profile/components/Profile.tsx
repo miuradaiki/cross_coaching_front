@@ -67,25 +67,30 @@ export const Profile: React.FC<Props> = () => {
         <Box sx={{ mt: 4 }}>
           <h1 className={styles.title}>Profile</h1>
           <form onSubmit={resetEmail}>
-            <div>
-              <Typography sx={{ mt: 4 }} textAlign="center">
-                パスワード変更
-              </Typography>
-              <Typography sx={{ mt: 1 }} textAlign="center" variant="body2" color="text.secondary">
-                登録したメールアドレスを入力してください。
-              </Typography>
-              <Box sx={{ mt: 4 }} textAlign="center">
-                <TextField
-                  name="email"
-                  type="email"
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-              </Box>
-              <Box sx={{ mt: 4 }} textAlign="center">
-                <Button type="submit" variant="outlined">
-                  更新する
-                </Button>
-              </Box>
+            <div className="flex justify-center">
+              <div>
+                <Typography sx={{ mt: 4 }} textAlign="center">
+                  パスワード変更
+                </Typography>
+                <Typography sx={{ mt: 1 }} textAlign="center" variant="body2" color="text.secondary">
+                  登録したメールアドレスを入力してください。
+                </Typography>
+                <Box sx={{ mt: 4, maxWidth: 320 }} textAlign="center">
+                  <TextField
+                    name="email"
+                    type="email"
+                    size="small"
+                    label="メールアドレス"
+                    fullWidth
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
+                </Box>
+                <Box sx={{ mt: 4 }} textAlign="center">
+                  <Button type="submit" variant="outlined">
+                    更新する
+                  </Button>
+                </Box>
+              </div>
             </div>
           </form>
         </Box>
