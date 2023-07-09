@@ -1,0 +1,19 @@
+.header_content {
+  color: #fff;
+  background-color: rgb(255, 199, 90);
+  height: 80px;
+  padding: 0 32px;
+}
+
+.menu {
+  position: absolute;
+  right: 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  background-color: #fff;
+  box-shadow: #cfcfcf 1px 1px 1px 1px;
+  border-radius: 3px;
+  color: #656565;
+  padding: 8px;
+}
