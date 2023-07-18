@@ -6,11 +6,13 @@ axios.defaults.baseURL = process.env.NEXT_PUBLIC_BASE_URL
 import { ToastContainer } from "react-toastify"
 import 'react-toastify/dist/ReactToastify.css'
 import { AuthContextProvider } from "../context/AuthContext"
+import Header from "../components/header"
 
 function App({ Component, pageProps }: AppProps) {
   return (
     <>
       <AuthContextProvider>
+        <Header />
         <Component {...pageProps} />
         <ToastContainer
           position="top-center"   // 通知の表示位置

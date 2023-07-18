@@ -1,10 +1,14 @@
 import Head from 'next/head'
-import Image from 'next/image'
 import styles from '@/styles/Home.module.css'
-import Link from "next/link"
-import Header from "../components/header"
+import { useFetchMyFeedbacks } from "../src/features/feedback/hooks/feedbacks"
+import { useFetchShares } from "../src/features/share/hooks"
+import { useFetchAnswers } from "../src/features/answer/hooks"
 
 export default function Home() {
+  const { feedbacks } = useFetchMyFeedbacks()
+  const { answers } = useFetchAnswers()
+  const { shares } = useFetchShares()
+
   return (
     <>
       <Head>
@@ -13,43 +17,12 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Header />
+
       <main className={styles.main}>
-        <div className={styles.center}>
-          <Image
-            src="/crosscoaching_white_logo.png"
-            alt="Cross Coaching Logo"
-            width={500}
-            height={80}
-            priority
-          />
-        </div>
-        <div>
-          ユーザ登録は
-          <Link href={"/signup"}>
-            こちら
-          </Link>
-          から
-        </div>
-        <div>
-          <Link href={"/login"}>
-            すでに登録している人はこちら
-          </Link>
-        </div>
-        <div>
-          <Link href={"/questions"}>
-            コーチングをはじめる
-          </Link>
-        </div>
-        <div>
-          <Link href={"/shares"}>
-            シェア一覧
-          </Link>
-        </div>
-        <div>
-          <Link href={"/feedbacks"}>
-            フィードバック一覧
-          </Link>
+        <div className="">
+          <div>Your answers count: {answers.length}</div>
+          <div>Your feedbacks count: {feedbacks.length}</div>
+          <div>Your shares count: {shares.length}</div>
         </div>
       </main>
     </>
