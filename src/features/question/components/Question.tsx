@@ -7,6 +7,9 @@ import { toast } from "react-toastify"
 import { useAuthContext } from "context/AuthContext"
 import axios from "axios"
 import { useRouter } from "next/router"
+import Box from '@mui/material/Box'
+import Container from '@mui/material/Container'
+import styles from '@/styles/Question.module.css'
 
 export type Props = {
   question?: QuestionType
@@ -136,63 +139,66 @@ export const Question: React.FC<Props> = (props: Props) => {
         <title>{props.question.title}</title>
         <meta name="description" content={props.question.description} />
       </Head>
-      <div className="text-gray-600 body-font">
-        <div className="container mx-auto flex px-5 py-24 md:flex-row flex-col items-center">
-          <div className="lg:flex-grow md:w-1/2 lg:pl-24 md:pl-16 flex flex-col md:items-start md:text-left items-center text-center">
-            <h1 className="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900">
-              {props.question.title}
-            </h1>
-            <p className="mb-8 leading-relaxed ">{props.question.description}</p>
+
+      <Container sx={{ maxWidth: 800 }} className={styles.container}>
+        <div className="text-gray-600 body-font">
+          <div className="container mx-auto flex px-5 md:flex-row flex-col items-center">
+            <div className="lg:flex-grow md:w-1/2 flex flex-col md:items-start md:text-left items-center text-center">
+              <h1 className="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900">
+                {props.question.title}
+              </h1>
+              <p className="mb-8 leading-relaxed ">{props.question.description}</p>
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* フォーム */}
-      <div className="container px-5 py-24 mx-auto">
-        <div className="lg:w-1/2 md:w-2/3 mx-auto">
-          <form
-            onSubmit={handleSubmit(onSubmit)}
-            className="flex flex-wrap -m-2"
-          >
-            <div className="p-2 w-full">
-              <div className="relative">
-                <label
-                  htmlFor="description"
-                  className="leading-7 text-sm text-gray-600"
-                >
-                  あなたの回答
-                </label>
-                <textarea
-                  {...register("description", { required: true, maxLength: 500 })}
-                  defaultValue={answer ? answer.description : ""}
-                  id="description"
-                  name="description"
-                  className="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 h-32 text-base outline-none text-gray-700 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out"
-                ></textarea>
-                {errors.description &&
-                  "500文字以下で回答してください。"}
+        {/* フォーム */}
+        <div className="container px-5 py-4 mx-auto">
+          <div className="lg:w-1/2 md:w-2/3 mx-auto ">
+            <form
+              onSubmit={handleSubmit(onSubmit)}
+              className="-m-2 flex flex-col"
+            >
+              <div className="p-2 w-full ">
+                <div className="relative flex flex-col">
+                  <label
+                    htmlFor="description"
+                    className="leading-7 text-sm text-gray-600"
+                  >
+                    あなたの回答
+                  </label>
+                  <textarea
+                    {...register("description", { required: true, maxLength: 500 })}
+                    defaultValue={answer ? answer.description : ""}
+                    id="description"
+                    name="description"
+                    className="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 h-32 text-base outline-none text-gray-700 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out"
+                  ></textarea>
+                  {errors.description &&
+                    "500文字以下で回答してください。"}
+                </div>
               </div>
-            </div>
+              <div className="p-2 w-full mt-8">
+                <button
+                  type="submit"
+                  className="flex mx-auto text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg"
+                >
+                  {isAddMode ? "回答を保存する" : "回答を更新する"}
+                </button>
+              </div>
+            </form>
             <div className="p-2 w-full">
-              <button
-                type="submit"
-                className="flex mx-auto text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg"
-              >
-                {isAddMode ? "回答を保存する" : "回答を更新する"}
-              </button>
-            </div>
-          </form>
-          <div className="p-2 w-full">
-              <button
-                onClick={shareAnswer}
-                disabled={isAddMode}
-                className="flex mx-auto text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg"
-              >
-                {isAddMode ? "回答後シェアができます" : "シェアする"}
-              </button>
-            </div>
+                <button
+                  onClick={shareAnswer}
+                  disabled={isAddMode}
+                  className="mt-8 flex mx-auto text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg"
+                >
+                  {isAddMode ? "回答後シェアができます" : "シェアする"}
+                </button>
+              </div>
+          </div>
         </div>
-      </div>
+      </Container>
     </>
   )
 }
